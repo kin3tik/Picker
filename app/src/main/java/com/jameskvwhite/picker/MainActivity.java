@@ -1,8 +1,13 @@
 package com.jameskvwhite.picker;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +17,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    LayoutInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,16 +33,19 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        inflater = LayoutInflater.from(this);
 
+        //FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
+        //DRAWER
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -88,14 +102,37 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //=================================
+    // added
+    //=================================
+
+    public void btnAdd_click(View view) {
+//        EditText input = (EditText)findViewById(R.id.etInput);
+//        if(!input.getText().toString().equals("")) {
+//            addButton(input.getText().toString());
+//            input.setText("");
+//        }
+
+        addButton("test button");
+    }
+
+    private boolean addButton(String buttonText) {
+        if(buttonText != null && !buttonText.equals("")) {
+            LinearLayout layout = (LinearLayout)findViewById(R.id.content);
+            Button b = (Button) inflater.inflate(R.layout.btn_choice, layout, false);
+            b.setId(Util.generateViewId());
+            b.setText(buttonText);
+            layout.addView(b);
+
+            return true;
+        }
+        return false;
     }
 }
