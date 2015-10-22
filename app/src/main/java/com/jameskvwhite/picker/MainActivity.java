@@ -1,5 +1,6 @@
 package com.jameskvwhite.picker;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -120,7 +125,13 @@ public class MainActivity extends AppCompatActivity
 //            input.setText("");
 //        }
 
-        addButton("test button");
+        String test = Util.getDefaults("ui_colour", this);
+        float[] colour = ColorPickerPreference.convertToHSL(Integer.valueOf(test));
+        String h = String.valueOf(colour[0]);
+        String s = String.valueOf(colour[1]);
+        String v = String.valueOf(colour[2]);
+
+        addButton(h+", "+s+", "+v);
     }
 
     private boolean addButton(String buttonText) {

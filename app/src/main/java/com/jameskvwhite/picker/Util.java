@@ -1,6 +1,9 @@
 package com.jameskvwhite.picker;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.TypedValue;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,5 +34,17 @@ public class Util {
 
     public static int toDP(Activity parent, int pixels) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixels, parent.getResources().getDisplayMetrics());
+    }
+
+    public static void setDefaults(String key, String value, Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public static String getDefaults(String key, Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return Integer.toString(preferences.getInt(key, 0));
     }
 }
